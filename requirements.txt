@@ -1,0 +1,9 @@
+pandas
+numpy
+faker
+sentence-transformers
+faiss-cpu
+rank-bm25
+scikit-learn
+streamlit
+matplotlib
