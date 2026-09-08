@@ -3,10 +3,7 @@ import sqlite3
 from pathlib import Path
 from datetime import datetime
 
-
-# ============================================================
 # PATHS
-# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,10 +13,7 @@ JSON_FILE = DATA_DIR / "chat.json"
 
 DB_FILE = DATA_DIR / "chat.db"
 
-
-# ============================================================
 # LOAD JSON DATA
-# ============================================================
 
 def load_messages():
 
@@ -34,9 +28,7 @@ def load_messages():
     return messages
 
 
-# ============================================================
 # VALIDATE DATASET
-# ============================================================
 
 def validate_messages(messages):
 
@@ -44,9 +36,7 @@ def validate_messages(messages):
     print("DATASET VALIDATION")
     print("=" * 60)
 
-    # --------------------------------------------------------
     # Total messages
-    # --------------------------------------------------------
 
     print(f"Total messages: {len(messages)}")
 
@@ -55,9 +45,7 @@ def validate_messages(messages):
     else:
         print("✗ Message count is below 4000")
 
-    # --------------------------------------------------------
     # Participants
-    # --------------------------------------------------------
 
     participants = set(
         message["sender"]
@@ -74,9 +62,7 @@ def validate_messages(messages):
     else:
         print("✗ Need at least 8 participants")
 
-    # --------------------------------------------------------
     # Dates
-    # --------------------------------------------------------
 
     timestamps = [
         datetime.fromisoformat(message["timestamp"])
@@ -98,9 +84,7 @@ def validate_messages(messages):
     else:
         print("✗ Chat duration is too short")
 
-    # --------------------------------------------------------
     # Forwarded messages
-    # --------------------------------------------------------
 
     forwarded = sum(
         1
@@ -115,9 +99,7 @@ def validate_messages(messages):
     else:
         print("✗ No forwarded messages found")
 
-    # --------------------------------------------------------
     # Conversation threads
-    # --------------------------------------------------------
 
     conversations = set(
         message["conversation_id"]
@@ -136,9 +118,7 @@ def validate_messages(messages):
 
         print(f"  ✓ {conversation}: {count} messages")
 
-    # --------------------------------------------------------
     # Required fields
-    # --------------------------------------------------------
 
     required_fields = [
         "id",
@@ -174,9 +154,7 @@ def validate_messages(messages):
     print("=" * 60)
 
 
-# ============================================================
 # CREATE DATABASE
-# ============================================================
 
 def create_database(messages):
 
@@ -186,9 +164,7 @@ def create_database(messages):
 
     cursor = connection.cursor()
 
-    # --------------------------------------------------------
     # Create table
-    # --------------------------------------------------------
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS messages (
@@ -208,15 +184,11 @@ def create_database(messages):
         )
     """)
 
-    # --------------------------------------------------------
     # Clear old data
-    # --------------------------------------------------------
 
     cursor.execute("DELETE FROM messages")
 
-    # --------------------------------------------------------
     # Insert messages
-    # --------------------------------------------------------
 
     for message in messages:
 
@@ -243,9 +215,7 @@ def create_database(messages):
 
     connection.commit()
 
-    # --------------------------------------------------------
     # Verify database
-    # --------------------------------------------------------
 
     cursor.execute(
         "SELECT COUNT(*) FROM messages"
@@ -255,9 +225,7 @@ def create_database(messages):
 
     print(f"Messages inserted into database: {count}")
 
-    # --------------------------------------------------------
     # Create indexes
-    # --------------------------------------------------------
 
     cursor.execute("""
         CREATE INDEX IF NOT EXISTS idx_sender
@@ -280,10 +248,7 @@ def create_database(messages):
 
     print(f"✓ Database created: {DB_FILE}")
 
-
-# ============================================================
 # MAIN
-# ============================================================
 
 def main():
 

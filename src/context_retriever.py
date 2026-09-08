@@ -1,19 +1,13 @@
 import sqlite3
 from pathlib import Path
 
-
-# ============================================================
 # PATH
-# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DB_FILE = BASE_DIR / "data" / "chat.db"
 
-
-# ============================================================
 # LOAD MESSAGE
-# ============================================================
 
 def get_message(message_id):
 
@@ -44,10 +38,7 @@ def get_message(message_id):
 
     return dict(message)
 
-
-# ============================================================
 # GET SURROUNDING MESSAGES
-# ============================================================
 
 def get_context(message_id, context_size=5):
 
@@ -57,9 +48,7 @@ def get_context(message_id, context_size=5):
 
     cursor = connection.cursor()
 
-    # --------------------------------------------------------
     # First get the target message
-    # --------------------------------------------------------
 
     cursor.execute("""
         SELECT
@@ -83,9 +72,7 @@ def get_context(message_id, context_size=5):
 
     target = dict(target)
 
-    # --------------------------------------------------------
     # Get messages before and after the target
-    # --------------------------------------------------------
 
     cursor.execute("""
         SELECT
@@ -113,9 +100,7 @@ def get_context(message_id, context_size=5):
     return messages
 
 
-# ============================================================
 # DISPLAY CONTEXT
-# ============================================================
 
 def display_context(messages, target_id):
 
@@ -139,10 +124,8 @@ def display_context(messages, target_id):
         sender = message["sender"]
 
         text = message["text"]
-
-        # ----------------------------------------------------
+    
         # Highlight the matched message
-        # ----------------------------------------------------
 
         if message_id == target_id:
 
@@ -159,9 +142,7 @@ def display_context(messages, target_id):
     print("\n" + "=" * 80)
 
 
-# ============================================================
 # MAIN
-# ============================================================
 
 def main():
 
@@ -207,10 +188,7 @@ def main():
             message_id
         )
 
-
-# ============================================================
 # RUN
-# ============================================================
 
 if __name__ == "__main__":
 

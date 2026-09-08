@@ -19,10 +19,7 @@ from hybrid_search import (
 from sentence_transformers import SentenceTransformer
 import faiss
 
-
-# ============================================================
 # PAGE CONFIG
-# ============================================================
 
 st.set_page_config(
     page_title="Smart Group Chat Search",
@@ -30,10 +27,7 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# ============================================================
 # CSS
-# ============================================================
 
 st.markdown("""
 <style>
@@ -76,10 +70,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-# ============================================================
 # LOAD SYSTEM
-# ============================================================
 
 @st.cache_resource
 def load_system():
@@ -97,9 +88,7 @@ def load_system():
     return messages, bm25, model, faiss_index
 
 
-# ============================================================
 # HEADER
-# ============================================================
 
 st.markdown(
     '<div class="main-title">💬 Smart Group Chat Search</div>',
@@ -113,10 +102,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# ============================================================
 # LOAD
-# ============================================================
 
 try:
 
@@ -130,10 +116,7 @@ except Exception as e:
 
     st.stop()
 
-
-# ============================================================
 # SIDEBAR
-# ============================================================
 
 with st.sidebar:
 
@@ -158,10 +141,7 @@ with st.sidebar:
 
     st.write("• Manali trip")
 
-
-# ============================================================
 # SEARCH BOX
-# ============================================================
 
 query = st.text_input(
     "Search your group chat",
@@ -174,10 +154,7 @@ search_clicked = st.button(
     use_container_width=True
 )
 
-
-# ============================================================
 # SEARCH
-# ============================================================
 
 if search_clicked and query.strip():
 
@@ -192,10 +169,7 @@ if search_clicked and query.strip():
             top_k=top_k
         )
 
-
-    # --------------------------------------------------------
     # QUERY TYPE
-    # --------------------------------------------------------
 
     query_lower = query.lower()
 
@@ -222,11 +196,8 @@ if search_clicked and query.strip():
     st.subheader("Search Analysis")
 
     st.info(f"Query Type: **{query_type}**")
-
-
-    # --------------------------------------------------------
+    
     # RESULTS
-    # --------------------------------------------------------
 
     if not results:
 
@@ -266,10 +237,7 @@ if search_clicked and query.strip():
                     unsafe_allow_html=True
                 )
 
-
-                # ------------------------------------------------
                 # CONTEXT
-                # ------------------------------------------------
 
                 if rank == 1:
 

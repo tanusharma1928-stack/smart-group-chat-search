@@ -35,9 +35,7 @@ def get_date_range(text):
 
     max_dt = datetime.fromisoformat(max_date)
 
-    # -------------------------
     # LAST MONTH
-    # -------------------------
     if "last month" in text or "previous month" in text:
         first_this_month = max_dt.replace(
             day=1,
@@ -59,9 +57,7 @@ def get_date_range(text):
 
         return start.isoformat(), first_this_month.isoformat()
 
-    # -------------------------
     # THIS MONTH
-    # -------------------------
     if "this month" in text:
         start = max_dt.replace(
             day=1,
@@ -73,18 +69,14 @@ def get_date_range(text):
 
         return start.isoformat(), max_dt.isoformat()
 
-    # -------------------------
     # LAST WEEK
-    # -------------------------
     if "last week" in text or "previous week" in text:
         end = max_dt
         start = end - timedelta(days=7)
 
         return start.isoformat(), end.isoformat()
 
-    # -------------------------
     # THIS WEEK
-    # -------------------------
     if "this week" in text:
         start = max_dt - timedelta(days=max_dt.weekday())
 
@@ -129,9 +121,7 @@ def analyze_query(query):
 
     start_date, end_date = get_date_range(query)
 
-    # -------------------------
     # QUERY TYPE
-    # -------------------------
 
     if detected_person:
         query_type = "attributed"

@@ -9,27 +9,18 @@ from sentence_transformers import SentenceTransformer
 
 from query_analyzer import analyze_query
 
-
-# ============================================================
 # PATHS
-# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DB_FILE = BASE_DIR / "data" / "chat.db"
 FAISS_INDEX_FILE = BASE_DIR / "models" / "chat.index"
 
-
-# ============================================================
 # MODEL
-# ============================================================
 
 MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 
-
-# ============================================================
 # LOAD MESSAGES
-# ============================================================
 
 def load_messages():
 
@@ -56,10 +47,7 @@ def load_messages():
 
     return messages
 
-
-# ============================================================
 # TOKENIZER
-# ============================================================
 
 def tokenize(text):
 
@@ -67,10 +55,7 @@ def tokenize(text):
 
     return re.findall(r"[a-zA-Z0-9]+", text)
 
-
-# ============================================================
 # BUILD BM25
-# ============================================================
 
 def build_bm25(messages):
 
@@ -81,10 +66,7 @@ def build_bm25(messages):
 
     return BM25Okapi(corpus)
 
-
-# ============================================================
 # NORMALIZE SCORES
-# ============================================================
 
 def normalize_scores(scores):
 
@@ -101,10 +83,7 @@ def normalize_scores(scores):
 
     return (scores - minimum) / (maximum - minimum)
 
-
-# ============================================================
 # CLEAN QUERY
-# ============================================================
 
 def clean_query(query, query_info):
 
@@ -154,10 +133,7 @@ def clean_query(query, query_info):
 
     return cleaned if cleaned else query
 
-
-# ============================================================
 # CHECK DATE RANGE
-# ============================================================
 
 def inside_date_range(message, start_date, end_date):
 
@@ -168,10 +144,7 @@ def inside_date_range(message, start_date, end_date):
 
     return start_date <= timestamp < end_date
 
-
-# ============================================================
 # DECISION INTENT BOOST
-# ============================================================
 
 def decision_boost(query, text):
 
@@ -212,10 +185,7 @@ def decision_boost(query, text):
 
     return 0.0
 
-
-# ============================================================
 # HYBRID SEARCH
-# ============================================================
 
 def hybrid_search(
     query,
@@ -226,9 +196,7 @@ def hybrid_search(
     top_k=10
 ):
 
-    # --------------------------------------------------------
     # 1. ANALYZE QUERY
-    # --------------------------------------------------------
 
     query_info = analyze_query(query)
 
@@ -245,9 +213,7 @@ def hybrid_search(
         query_info
     )
 
-    # --------------------------------------------------------
     # 2. BM25 SEARCH
-    # --------------------------------------------------------
 
     query_tokens = tokenize(search_query)
 
@@ -257,9 +223,7 @@ def hybrid_search(
         bm25_scores
     )
 
-    # --------------------------------------------------------
     # 3. SEMANTIC SEARCH
-    # --------------------------------------------------------
 
     query_embedding = model.encode(
         [search_query],
@@ -296,27 +260,20 @@ def hybrid_search(
             normalized_semantic[position]
         )
 
-    # --------------------------------------------------------
     # 4. FILTER + HYBRID SCORE
-    # --------------------------------------------------------
-
     results = []
 
     for index, message in enumerate(messages):
 
-        # ----------------------------------------------------
         # ATTRIBUTED FILTER
-        # ----------------------------------------------------
-
+    
         if query_type == "attributed":
 
             if person and message["sender"].lower() != person.lower():
                 continue
-
-        # ----------------------------------------------------
+       
         # TEMPORAL FILTER
-        # ----------------------------------------------------
-
+       
         if query_type == "temporal":
 
             if not inside_date_range(
@@ -325,10 +282,8 @@ def hybrid_search(
                 end_date
             ):
                 continue
-
-        # ----------------------------------------------------
+ 
         # SCORES
-        # ----------------------------------------------------
 
         semantic_score = semantic_map.get(
             index,
@@ -342,11 +297,9 @@ def hybrid_search(
             +
             0.5 * semantic_score
         )
-
-        # ----------------------------------------------------
+  
         # DECISION BOOST
-        # ----------------------------------------------------
-
+       
         hybrid_score += decision_boost(
             query,
             message["text"]
@@ -376,9 +329,7 @@ def hybrid_search(
 
         })
 
-    # --------------------------------------------------------
     # 5. SORT
-    # --------------------------------------------------------
 
     results.sort(
         key=lambda x: x["hybrid_score"],
@@ -387,11 +338,7 @@ def hybrid_search(
 
     return results[:top_k]
 
-
-# ============================================================
 # GET CONTEXT
-# ============================================================
-
 def get_context(
     messages,
     result,
@@ -424,10 +371,7 @@ def get_context(
 
     return messages[start:end]
 
-
-# ============================================================
 # DISPLAY RESULTS
-# ============================================================
 
 def display_results(
     results,
@@ -508,11 +452,9 @@ def display_results(
             f"Thread          : "
             f"{result['conversation_id']}"
         )
-
-        # ----------------------------------------------------
+       
         # CONTEXT FOR TOP RESULT
-        # ----------------------------------------------------
-
+       
         if rank == 1:
 
             context = get_context(
@@ -547,10 +489,7 @@ def display_results(
 
         print("\n" + "-" * 80)
 
-
-# ============================================================
 # MAIN
-# ============================================================
 
 def main():
 
@@ -558,10 +497,8 @@ def main():
     print("SMART GROUP CHAT — HYBRID SEARCH")
     print("=" * 80)
 
-    # --------------------------------------------------------
     # LOAD MESSAGES
-    # --------------------------------------------------------
-
+   
     print("\nLoading messages...")
 
     messages = load_messages()
@@ -570,9 +507,7 @@ def main():
         f"Loaded {len(messages)} messages."
     )
 
-    # --------------------------------------------------------
     # BM25
-    # --------------------------------------------------------
 
     print("\nBuilding BM25 index...")
 
@@ -580,10 +515,8 @@ def main():
 
     print("BM25 ready.")
 
-    # --------------------------------------------------------
     # MODEL
-    # --------------------------------------------------------
-
+   
     print("\nLoading semantic model...")
 
     model = SentenceTransformer(
@@ -591,10 +524,8 @@ def main():
     )
 
     print("Semantic model ready.")
-
-    # --------------------------------------------------------
+   
     # FAISS
-    # --------------------------------------------------------
 
     print("\nLoading FAISS index...")
 
@@ -619,10 +550,8 @@ def main():
         f"{faiss_index.ntotal} vectors"
     )
 
-    # --------------------------------------------------------
     # READY
-    # --------------------------------------------------------
-
+   
     print("\n" + "=" * 80)
     print("HYBRID SEARCH READY")
     print("=" * 80)
@@ -647,10 +576,8 @@ def main():
 
     print("\nType 'exit' to quit.\n")
 
-    # --------------------------------------------------------
     # SEARCH LOOP
-    # --------------------------------------------------------
-
+   
     while True:
 
         query = input(
@@ -665,17 +592,13 @@ def main():
         if not query:
             continue
 
-        # ----------------------------------------------------
         # QUERY ANALYSIS
-        # ----------------------------------------------------
-
+       
         query_info = analyze_query(
             query
         )
 
-        # ----------------------------------------------------
         # SEARCH
-        # ----------------------------------------------------
 
         results = hybrid_search(
             query,
@@ -686,9 +609,7 @@ def main():
             top_k=10
         )
 
-        # ----------------------------------------------------
         # DISPLAY
-        # ----------------------------------------------------
 
         display_results(
             results,
@@ -696,10 +617,7 @@ def main():
             query_info
         )
 
-
-# ============================================================
 # RUN
-# ============================================================
 
 if __name__ == "__main__":
 

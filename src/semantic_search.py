@@ -5,10 +5,7 @@ import faiss
 from pathlib import Path
 from sentence_transformers import SentenceTransformer
 
-
-# ============================================================
 # PATHS
-# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,17 +19,11 @@ EMBEDDINGS_FILE = MODEL_DIR / "chat_embeddings.npy"
 
 FAISS_INDEX_FILE = MODEL_DIR / "chat.index"
 
-
-# ============================================================
 # MODEL
-# ============================================================
 
 MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 
-
-# ============================================================
 # LOAD MESSAGES
-# ============================================================
 
 def load_messages():
 
@@ -60,10 +51,7 @@ def load_messages():
 
     return messages
 
-
-# ============================================================
 # CREATE EMBEDDINGS
-# ============================================================
 
 def create_embeddings(messages, model):
 
@@ -101,10 +89,7 @@ def create_embeddings(messages, model):
 
     return embeddings
 
-
-# ============================================================
 # BUILD FAISS INDEX
-# ============================================================
 
 def build_faiss_index(embeddings):
 
@@ -131,10 +116,7 @@ def build_faiss_index(embeddings):
 
     return index
 
-
-# ============================================================
 # SEARCH
-# ============================================================
 
 def semantic_search(
     query,
@@ -182,10 +164,7 @@ def semantic_search(
 
     return results
 
-
-# ============================================================
 # DISPLAY RESULTS
-# ============================================================
 
 def display_results(results):
 
@@ -235,9 +214,7 @@ def display_results(results):
         print("-" * 70)
 
 
-# ============================================================
 # MAIN
-# ============================================================
 
 def main():
 
@@ -245,9 +222,7 @@ def main():
     print("SMART GROUP CHAT — SEMANTIC SEARCH")
     print("=" * 70)
 
-    # --------------------------------------------------------
     # Load messages
-    # --------------------------------------------------------
 
     print("\nLoading messages...")
 
@@ -257,9 +232,7 @@ def main():
         f"Loaded {len(messages)} messages."
     )
 
-    # --------------------------------------------------------
     # Load model
-    # --------------------------------------------------------
 
     print("\nLoading embedding model...")
 
@@ -273,26 +246,20 @@ def main():
 
     print("Model loaded successfully.")
 
-    # --------------------------------------------------------
     # Create embeddings
-    # --------------------------------------------------------
 
     embeddings = create_embeddings(
         messages,
         model
     )
 
-    # --------------------------------------------------------
     # Build FAISS
-    # --------------------------------------------------------
 
     index = build_faiss_index(
         embeddings
     )
 
-    # --------------------------------------------------------
     # Interactive search
-    # --------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("SEMANTIC SEARCH READY")
@@ -331,9 +298,7 @@ def main():
         )
 
 
-# ============================================================
 # RUN
-# ============================================================
 
 if __name__ == "__main__":
 

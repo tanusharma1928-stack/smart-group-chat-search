@@ -6,8 +6,6 @@ semantic meaning, keywords, person-based queries, and time-based queries.
 The system is designed to understand natural-language queries, including
 Hinglish queries, and return the most relevant chat messages.
 
----
-
 ## Features
 
 - Semantic search using sentence embeddings
@@ -23,11 +21,8 @@ Hinglish queries, and return the most relevant chat messages.
 - FAISS vector index for efficient similarity search
 - Chat data stored using JSON and SQLite
 
----
-
 ## Project Structure
 
-```text
 AI Project/
 │
 ├── app/
@@ -99,9 +94,8 @@ BM25             FAISS           Person/Time
         Streamlit UI
 
 
-Search Types
+# Search Types:
 1. Semantic Search
-
 Finds messages based on their meaning rather than requiring exact
 keyword matches.
 
@@ -112,7 +106,6 @@ kab Manali jane ka plan tha
 The system searches for messages related to the meaning of the query.
 
 2. Attributed Search
-
 Searches for information associated with a particular person.
 
 Example:
@@ -127,7 +120,6 @@ Person : Priya
 and searches for relevant messages from Priya.
 
 3. Temporal Search
-
 Searches messages based on time-related expressions.
 
 Examples:
@@ -141,41 +133,35 @@ before performing the search.
 4. Hybrid Search
 
 Hybrid search combines:
-
 BM25 keyword relevance
 Semantic similarity
 
 This allows the system to handle both exact keyword matches and
 meaning-based matches.
 
-Query Analyzer
+# Query Analyzer
 
 The query analyzer extracts useful information from a user's query.
 
 It identifies:
-
 Query type
 Person
 Start date
 End date
 
 Example:
-
 what did Priya say about the budget
 
 Output:
-
 Type       : attributed
 Person     : Priya
 Start Date : None
 End Date   : None
 
 Another example:
-
 what did we discuss last month
 
 Output:
-
 Type       : temporal
 Person     : None
 Start Date : ...
@@ -183,18 +169,15 @@ End Date   : ...
 Data
 
 The project uses chat conversation data containing:
-
 User name
 Message
 Timestamp
 
 The project stores chat information in:
-
 data/chat.json
 data/chat.db
 
 Embeddings and the FAISS index are stored in:
-
 models/chat_embeddings.npy
 models/chat.index
 Installation
@@ -216,14 +199,13 @@ If the virtual environment is already activated, you can skip this step.
 pip install -r requirements.txt
 Running the Project
 
-Run the Streamlit application from the project root:
+# Run the Streamlit application from the project root:
 
 streamlit run app/app.py
 
 The application will open in the browser.
 
-Example Queries
-
+Example Queries ->
 The application supports queries such as:
 
 kab Manali jane ka plan tha
@@ -247,7 +229,7 @@ Surrounding conversation context
 
 Results are ranked according to their relevance to the user's query.
 
-Testing
+# Testing: 
 
 The project was manually tested using different types of queries:
 
@@ -265,8 +247,7 @@ better processor worth it hai
 The search interface successfully returned ranked results for the tested
 queries.
 
-Future Scope
-
+# Future Scope
 Possible improvements include:
 
 Better Hinglish understanding
@@ -280,7 +261,8 @@ Personalized search
 Improved ranking models
 LLM-based answer generation
 Voice-based search
-Conclusion
+
+# Conclusion:
 
 Smart Group Chat Search provides an intelligent way to search large group
 chat conversations using natural-language queries.

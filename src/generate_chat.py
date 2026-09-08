@@ -3,9 +3,7 @@ import random
 from datetime import datetime, timedelta
 from pathlib import Path
 
-# ============================================================
 # CONFIGURATION
-# ============================================================
 
 TOTAL_MESSAGES = 5000
 
@@ -34,9 +32,7 @@ DATA_DIR.mkdir(exist_ok=True)
 OUTPUT_FILE = DATA_DIR / "chat.json"
 
 
-# ============================================================
 # MESSAGE TEMPLATES
-# ============================================================
 
 CASUAL_MESSAGES = [
     "kya scene hai?",
@@ -189,9 +185,7 @@ FORWARDED_MESSAGES = [
 ]
 
 
-# ============================================================
 # RANDOM MESSAGE GENERATOR
-# ============================================================
 
 def random_normal_message():
     category = random.choices(
@@ -212,9 +206,7 @@ def random_normal_message():
     return random.choice(category)
 
 
-# ============================================================
 # TIMESTAMP GENERATOR
-# ============================================================
 
 def generate_timestamp():
     total_seconds = int((END_DATE - START_DATE).total_seconds())
@@ -224,9 +216,7 @@ def generate_timestamp():
     return START_DATE + timedelta(seconds=random_seconds)
 
 
-# ============================================================
 # DECISION THREADS
-# ============================================================
 
 def create_manali_thread():
     base = datetime(2026, 3, 12, 18, 30)
@@ -367,9 +357,7 @@ def create_purchase_thread():
     return result
 
 
-# ============================================================
 # GENERATE RANDOM CHAT
-# ============================================================
 
 def generate_random_messages(count):
     messages = []
@@ -392,9 +380,7 @@ def generate_random_messages(count):
     return messages
 
 
-# ============================================================
 # MAIN
-# ============================================================
 
 def main():
 
