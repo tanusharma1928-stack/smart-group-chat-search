@@ -22,28 +22,28 @@ An intelligent search system for searching group chat conversations using semant
 AI Project/
 │
 ├── app/
-│   └── app.py
+│   └── app.py                  # Streamlit application
 │
 ├── data/
-│   ├── chat.db
-│   └── chat.json
+│   ├── chat.db                 # SQLite chat database
+│   └── chat.json               # Chat dataset
 │
 ├── models/
-│   ├── chat_embeddings.npy
-│   └── chat.index
+│   ├── chat_embeddings.npy     # Message embeddings
+│   └── chat.index              # FAISS search index
 │
-├── notebooks/
+├── notebooks/                  # Development notebooks
 │
 ├── src/
-│   ├── bm25_search.py
-│   ├── context_retriever.py
-│   ├── database.py
-│   ├── generate_chat.py
-│   ├── hybrid_search.py
-│   ├── query_analyzer.py
-│   └── semantic_search.py
+│   ├── bm25_search.py          # BM25 keyword search
+│   ├── context_retriever.py    # Retrieves surrounding messages
+│   ├── database.py             # Database operations
+│   ├── generate_chat.py        # Generates sample chat data
+│   ├── hybrid_search.py        # Combines search methods
+│   ├── query_analyzer.py       # Analyzes user queries
+│   └── semantic_search.py      # Semantic/vector search
 │
-├── tests/
+├── tests/                      # Testing files
 │
 ├── .gitignore
 ├── README.md
@@ -63,31 +63,43 @@ AI Project/
 11. Faker
 
 # Search Architecture
-The system follows the pipeline:
+ The system follows the pipeline:
 
-User Query
-     ↓
-Query Analyzer
-     ↓
-Query Type Detection
-     ↓
- ┌───────────────┬────────────────┐
- │               │                │
-Keyword Search   Semantic Search  Query Filters
- │               │                │
-BM25             FAISS           Person/Time
- │               │                │
- └───────────────┴────────────────┘
-             ↓
-       Hybrid Search
-             ↓
-       Score & Ranking
-             ↓
-          Top-K Results
-             ↓
-     Surrounding Context
-             ↓
-        Streamlit UI
+                    User Query
+                        │
+                        ▼
+                ┌───────────────┐
+                │ Query Analyzer│
+                └───────┬───────┘
+                        │
+                        ▼
+                 Query Type
+                   Detection
+                        │
+             ┌──────────┴──────────┐
+             ▼                     ▼
+       Keyword Search        Semantic Search
+          (BM25)                  (FAISS)
+             │                     │
+             └──────────┬──────────┘
+                        ▼
+                 Person / Time
+                    Filters
+                        │
+                        ▼
+                 Hybrid Search
+                        │
+                        ▼
+                 Score & Ranking
+                        │
+                        ▼
+                   Top-K Results
+                        │
+                        ▼
+              Surrounding Context
+                        │
+                        ▼
+                  Streamlit UI
 
 
 # Search Types:
@@ -145,7 +157,7 @@ Person
 Start date
 End date
 
-Example:
+Example 1:
 what did Priya say about the budget
 
 Output:
@@ -154,7 +166,7 @@ Person     : Priya
 Start Date : None
 End Date   : None
 
-Another example:
+Example 2:
 what did we discuss last month
 
 Output:
@@ -186,18 +198,17 @@ python -m venv venv
 3. Activate the virtual environment
 
 Windows PowerShell:
-
 .\venv\Scripts\Activate.ps1
 
-If the virtual environment is already activated, you can skip this step.
+==>  If the virtual environment is already activated, you can skip this step.
 
 4. Install dependencies
 pip install -r requirements.txt
-Running the Project
 
-# Run the Streamlit application from the project root:
+## Running the Project:
+Run the Streamlit application from the project root:
 
-streamlit run app/app.py
+Command: streamlit run app/app.py
 
 The application will open in the browser.
 
@@ -226,7 +237,6 @@ Surrounding conversation context
 Results are ranked according to their relevance to the user's query.
 
 # Testing: 
-
 The project was manually tested using different types of queries:
 
 Semantic Queries
