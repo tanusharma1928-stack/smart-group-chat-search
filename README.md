@@ -19,31 +19,32 @@ An intelligent search system for searching group chat conversations using semant
 
 ## Project Structure
 
+```text
 AI Project/
 │
 ├── app/
-│   └── app.py                  # Streamlit application
+│   └── app.py
 │
 ├── data/
-│   ├── chat.db                 # SQLite chat database
-│   └── chat.json               # Chat dataset
+│   ├── chat.db
+│   └── chat.json
 │
 ├── models/
-│   ├── chat_embeddings.npy     # Message embeddings
-│   └── chat.index              # FAISS search index
+│   ├── chat_embeddings.npy
+│   └── chat.index
 │
-├── notebooks/                  # Development notebooks
+├── notebooks/
 │
 ├── src/
-│   ├── bm25_search.py          # BM25 keyword search
-│   ├── context_retriever.py    # Retrieves surrounding messages
-│   ├── database.py             # Database operations
-│   ├── generate_chat.py        # Generates sample chat data
-│   ├── hybrid_search.py        # Combines search methods
-│   ├── query_analyzer.py       # Analyzes user queries
-│   └── semantic_search.py      # Semantic/vector search
+│   ├── bm25_search.py
+│   ├── context_retriever.py
+│   ├── database.py
+│   ├── generate_chat.py
+│   ├── hybrid_search.py
+│   ├── query_analyzer.py
+│   └── semantic_search.py
 │
-├── tests/                      # Testing files
+├── tests/
 │
 ├── .gitignore
 ├── README.md
