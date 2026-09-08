@@ -1,10 +1,6 @@
-# Smart Group Chat Search
+## Smart Group Chat Search
 
-An intelligent search system for searching group chat conversations using
-semantic meaning, keywords, person-based queries, and time-based queries.
-
-The system is designed to understand natural-language queries, including
-Hinglish queries, and return the most relevant chat messages.
+An intelligent search system for searching group chat conversations using semantic meaning, keywords, person-based queries, and time-based queries.The system is designed to understand natural-language queries, including Hinglish queries, and return the most relevant chat messages.
 
 ## Features
 
@@ -54,17 +50,17 @@ AI Project/
 └── requirements.txt
 
 # Technologies Used
-Python
-Streamlit
-NumPy
-Pandas
-Sentence Transformers
-FAISS
-BM25
-Scikit-learn
-SQLite
-Matplotlib
-Faker
+1. Python
+2. Streamlit
+3. NumPy
+4. Pandas
+5. Sentence Transformers
+6. FAISS
+7. BM25
+8. Scikit-learn
+9. SQLite
+10. Matplotlib
+11. Faker
 
 # Search Architecture
 The system follows the pipeline:
